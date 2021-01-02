@@ -11,16 +11,21 @@ def decideBestMove(board, current_player):
     for i in range(3):
         for j in range(3):
             if board[i][j].isEmpty():
+                pass
+            else:
+                all_empty = False
+                break
+    if all_empty:
+        return random.choice([(0, 0), (0, 2), (2, 0), (2, 2)])
+    for i in range(3):
+        for j in range(3):
+            if board[i][j].isEmpty():
                 board[i][j].val = current_player
                 score = minimax(board, 0, False, current_player)
                 board[i][j].val = 0
                 if score > bestScore:
                     bestScore = score
                     row, column = i, j
-            else:
-                all_empty = False
-    if all_empty:
-        return random.choice([(0, 0), (0, 2), (2, 0), (2, 2)])
     return row, column
 
 
