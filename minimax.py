@@ -5,6 +5,7 @@ from spot import Spot, result
 
 
 def decideBestMove(board, current_player):
+    all_empty = True
     bestScore = -math.inf
     row, column = None, None
     for i in range(3):
@@ -16,6 +17,10 @@ def decideBestMove(board, current_player):
                 if score > bestScore:
                     bestScore = score
                     row, column = i, j
+            else:
+                all_empty = False
+    if all_empty:
+        return random.choice([(0, 0), (0, 2), (2, 0), (2, 2)])
     return row, column
 
 
