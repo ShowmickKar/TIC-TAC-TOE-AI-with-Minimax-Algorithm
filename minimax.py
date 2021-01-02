@@ -5,7 +5,6 @@ from spot import Spot, result
 
 
 def decideBestMove(board, current_player):
-    print(current_player)
     bestScore = -math.inf
     row, column = None, None
     for i in range(3):
