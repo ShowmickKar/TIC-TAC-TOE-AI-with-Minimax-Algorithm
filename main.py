@@ -11,7 +11,8 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("TIC-TAC-TOE AI")
 
 
-BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 
 def getSpotLocation(position, board):
@@ -77,7 +78,7 @@ def main(window, WIDTH, start, current_player):
                     pygame.time.delay(500)
                     if result(board) != 0:
                         start_pos, end_pos = getLineInformation(board)
-                        pygame.draw.line(window, BLACK, start_pos, end_pos, 20)
+                        pygame.draw.line(window, RED, start_pos, end_pos, 20)
                         pygame.display.update()
                         pygame.time.delay(1000)
                     reset(window, board, start, WIDTH, current_player)
@@ -101,7 +102,7 @@ def main(window, WIDTH, start, current_player):
                         pygame.time.delay(500)
                         if result(board) != 0:
                             start_pos, end_pos = getLineInformation(board)
-                            pygame.draw.line(window, BLACK, start_pos, end_pos, 20)
+                            pygame.draw.line(window, RED, start_pos, end_pos, 20)
                             pygame.display.update()
                             pygame.time.delay(1000)
                         reset(window, board, start, WIDTH, current_player)
