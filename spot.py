@@ -97,23 +97,10 @@ class Spot:
     def draw(self, window):
         pygame.draw.rect(window, WHITE, (self.x, self.y, self.width, self.width), 0)
         if self.val == 1:
-            pygame.draw.rect(
-                window,
-                GREEN,
-                (self.x + 25, self.y + 25, self.width - 50, self.width - 50),
-            )
+            img = pygame.image.load("cross_icon.png")
+            img = pygame.transform.scale(img, (150, 150))
+            window.blit(img, (self.x + 25, self.y + 25))
         if self.val == -1:
-            pygame.draw.circle(
-                window,
-                RED,
-                (
-                    self.x + 25 + (self.width - 50) // 2,
-                    self.y + 25 + (self.width - 50) // 2,
-                ),
-                (self.width - 50) // 2,
-            )
-
-
-# 0, 25
-# 1, 250
-# 2, 475
+            img = pygame.image.load("circle_icon.png")
+            img = pygame.transform.scale(img, (150, 150))
+            window.blit(img, (self.x + 25, self.y + 25))
