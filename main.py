@@ -1,7 +1,7 @@
 import random
 import math
 import pygame
-from spot import Spot, draw, result, getLineInformation
+from spot import Spot
 from minimax import decideBestMove
 
 pygame.init()
@@ -12,7 +12,15 @@ pygame.display.set_caption("TIC-TAC-TOE AI")
 
 
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
+
+
+def draw(window, board, WIDTH):
+    window.fill(BLACK)
+    for row in board:
+        for spot in row:
+            spot.draw(window)
+    pygame.display.update()
 
 
 def getSpotLocation(position, board):
@@ -47,6 +55,49 @@ def turn(toggle):
     return 1 if toggle == -1 else -1
 
 
+def getLineInformation(board):
+    for i in range(3):
+        sum_h, sum_v, sum_d1, sum_d2 = 0, 0, 0, 0
+        for j in range(3):
+            sum_v += board[i][j].val
+            sum_h += board[j][i].val
+            sum_d1 += board[j][j].val
+            sum_d2 += board[j][2 - j].val
+        if abs(sum_h) == 3 or abs(sum_v) == 3 or abs(sum_d1) == 3 or abs(sum_d2) == 3:
+            if abs(sum_v) == 3:
+                return (board[i][0].x + 100, board[i][0].y + 100), (
+                    board[i][2].x + 100,
+                    board[i][2].y + 100,
+                )
+            if abs(sum_h) == 3:
+                return (board[0][i].x + 100, board[0][i].y + 100), (
+                    board[2][i].x + 100,
+                    board[2][i].y + 100,
+                )
+            if abs(sum_d1) == 3:
+                return (125, 125), (575, 575)
+            return (575, 125), (125, 575)
+
+
+def result(board):
+    total_empty_spot = 0
+    for i in range(3):
+        sum_h, sum_v, sum_d1, sum_d2 = 0, 0, 0, 0
+        for j in range(3):
+            if board[i][j].isEmpty():
+                total_empty_spot += 1
+            sum_h += board[i][j].val
+            sum_v += board[j][i].val
+            sum_d1 += board[j][j].val
+            sum_d2 += board[j][2 - j].val
+        if sum_h == 3 or sum_v == 3 or sum_d1 == 3 or sum_d2 == 3:
+            return 1
+        if sum_h == -3 or sum_v == -3 or sum_d1 == -3 or sum_d2 == -3:
+            return -1
+    if not total_empty_spot:
+        return 0
+
+
 def gameOver(board):
     if result(board) != None:
         return True
@@ -63,7 +114,9 @@ def main(window, WIDTH, start, current_player):
             if event.type == pygame.QUIT:
                 run = False
             if AI > 0:
-                row, column = decideBestMove(board, current_player)
+                row, column = decideBestMove(
+                    board, current_player, lambda: result(board)
+                )
                 if row == None or result(board) == 0:
                     pygame.time.delay(1000)
                     reset(window, board, start, WIDTH, current_player)
