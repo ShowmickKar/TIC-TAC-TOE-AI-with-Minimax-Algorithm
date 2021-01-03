@@ -1,10 +1,10 @@
 import random
 import math
 import pygame
-from spot import Spot, result
+from spot import Spot
 
 
-def decideBestMove(board, current_player):
+def decideBestMove(board, current_player, result):
     all_empty = True
     bestScore = -math.inf
     row, column = None, None
@@ -21,7 +21,7 @@ def decideBestMove(board, current_player):
         for j in range(3):
             if board[i][j].isEmpty():
                 board[i][j].val = current_player
-                score = minimax(board, 0, False, current_player)
+                score = minimax(board, 0, False, current_player, result)
                 board[i][j].val = 0
                 if score > bestScore:
                     bestScore = score
@@ -29,12 +29,12 @@ def decideBestMove(board, current_player):
     return row, column
 
 
-def minimax(board, depth, is_maximizing, current_player):
+def minimax(board, depth, is_maximizing, current_player, result):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-    if result(board) != None:
-        score = result(board) * current_player
+    if result() != None:
+        score = result() * current_player
         return score
     if is_maximizing:
         best_score = -math.inf
@@ -42,7 +42,9 @@ def minimax(board, depth, is_maximizing, current_player):
             for j in range(3):
                 if board[i][j].isEmpty():
                     board[i][j].val = current_player
-                    score = minimax(board, depth + 1, not is_maximizing, current_player)
+                    score = minimax(
+                        board, depth + 1, not is_maximizing, current_player, result
+                    )
                     board[i][j].val = 0
                     best_score = max(score, best_score)
         return best_score
@@ -52,7 +54,9 @@ def minimax(board, depth, is_maximizing, current_player):
             for j in range(3):
                 if board[i][j].isEmpty():
                     board[i][j].val = -current_player
-                    score = minimax(board, depth + 1, not is_maximizing, current_player)
+                    score = minimax(
+                        board, depth + 1, not is_maximizing, current_player, result
+                    )
                     board[i][j].val = 0
                     best_score = min(score, best_score)
         return best_score
