@@ -45,10 +45,10 @@ def makeBoard(window, WIDTH):
     return board
 
 
-def reset(window, board, start, WIDTH, current_player):
+def reset(window, board, start, WIDTH, computer_move):
     board = makeBoard(window, WIDTH)
     draw(window, board, WIDTH)
-    main(window, WIDTH, start, turn(current_player))
+    main(window, WIDTH, start, turn(computer_move))
 
 
 def turn(toggle):
@@ -103,8 +103,8 @@ def gameOver(board):
         return True
 
 
-def main(window, WIDTH, start, current_player):
-    AI = current_player
+def main(window, WIDTH, start, computer_move):
+    AI = computer_move
     toggle = start
     run = True
     board = makeBoard(window, WIDTH)
@@ -115,11 +115,11 @@ def main(window, WIDTH, start, current_player):
                 run = False
             if AI > 0:
                 row, column = decideBestMove(
-                    board, current_player, lambda: result(board)
+                    board, computer_move, lambda: result(board)
                 )
                 if row == None or result(board) == 0:
                     pygame.time.delay(1000)
-                    reset(window, board, start, WIDTH, current_player)
+                    reset(window, board, start, WIDTH, computer_move)
                 if toggle == 1:
                     board[row][column].makeCross()
                 else:
@@ -134,14 +134,14 @@ def main(window, WIDTH, start, current_player):
                         pygame.draw.line(window, RED, start_pos, end_pos, 20)
                         pygame.display.update()
                         pygame.time.delay(1000)
-                    reset(window, board, start, WIDTH, current_player)
+                    reset(window, board, start, WIDTH, computer_move)
                 continue
             if AI < 0 and pygame.mouse.get_pressed()[0]:
                 position = pygame.mouse.get_pos()
                 spot = getSpotLocation(position, board)
                 try:
                     if result(board) == 0:
-                        reset(window, board, start, WIDTH, current_player)
+                        reset(window, board, start, WIDTH, computer_move)
                     row, column = spot
                     if board[row][column].isEmpty():
                         if toggle == 1:
@@ -158,7 +158,7 @@ def main(window, WIDTH, start, current_player):
                             pygame.draw.line(window, RED, start_pos, end_pos, 20)
                             pygame.display.update()
                             pygame.time.delay(1000)
-                        reset(window, board, start, WIDTH, current_player)
+                        reset(window, board, start, WIDTH, computer_move)
                 except Exception as e:
                     print(e)
                     print("Clicked outside available spot")
