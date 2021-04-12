@@ -1,3 +1,3 @@
 # TIC-TAC-TOE-AI-with-Minimax-Algorithm
 
-Using Python and Pygame, created a tic tac toe game, and implemented a MINIMAX, a decision based serch algorithm which makes the game impossible to beat.
+Created  a  Tic-Tac-Toe  game  in  Python  and  implemented   a  decision-based  search  algorithm  called MINIMAX to make it unbeatable
